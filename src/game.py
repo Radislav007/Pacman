@@ -36,7 +36,6 @@ class Game:
 
         self.collect_game()
 
-
     def collect_game(self, collect_type='start_over', life=3, level=1): 
         def clear():
             self.pacman = pygame.sprite.GroupSingle()
@@ -148,4 +147,3 @@ class Game:
             self.display.show_life(self.pacman.sprite.life, self.screen)
             self.display.show_level(self.level, self.screen)
             self.display.show_score(self.score, self.screen)
-
