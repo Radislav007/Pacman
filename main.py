@@ -1,73 +1,52 @@
-import pygame
-import sys
-import argparse
+# Імпортуємо модулі
+import pygame  # Бібліотека для створення ігор
+import sys     # Для завершення програми
+import argparse  # Для роботи з аргументами командного рядка
+
+# Імпортуємо власні модулі
 from src.settings import WIDTH, HEIGHT, MARGIN_BOTTOM
 from src.game import Game
-
-pygame.init()
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT + MARGIN_BOTTOM))
-pygame.display.set_caption('Pacman')
-
-COLORS = {
-    'black': (0, 0, 0),
-    'white': (255, 255, 255),
-    'red': (255, 0, 0),
-    'green': (0, 255, 0),
-    'blue': (0, 0, 255)
-}
+from src.colors import COLORS  # Імпорт кольорів з окремого файлу
 
 class Main:
-    def __init__(self, screen, background_color, walls_color):
-        self.screen = screen
-        self.FPS = pygame.time.Clock()
-        self.initial_background_color = background_color
-        self.initial_walls_color = walls_color
+    def __init__(self, fps=30):
+        pygame.init()
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT + MARGIN_BOTTOM))
+        pygame.display.set_caption("PacMan")
+        self.clock = pygame.time.Clock()
+        self.fps = fps
 
     def start(self):
         game = Game(self.screen)
-        
-        if self.initial_background_color:
-            while game.background_color != self.initial_background_color:
-                game.change_background_color()
-        if self.initial_walls_color:
-            while game.walls_color != self.initial_walls_color:
-                game.change_walls_color()
+        game.draw_board()
+        game.draw_enemies()
+        game.draw_player()
 
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p:
+                        print("Pause toggled")
                         game.is_pause = not game.is_pause
-                    if event.key == pygame.K_m:
-                        game.is_pause = False
-                        game.is_menu_open = True
-                        
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+
             if not game.is_pause:
-                game.draw() 
-            else:
-                game.display.show_pause(self.screen)
+                game.update()
 
             pygame.display.update()
-            self.FPS.tick(30)
+            self.clock.tick(self.fps)
 
 def parse_arguments():
-    parser = argparse.ArgumentParser(description='Pacman Game with customizable colors')
-    parser.add_argument('--background', type=str, choices=COLORS.keys(), default='black',
-                        help='Set the initial background color (default: black)')
-    parser.add_argument('--walls', type=str, choices=COLORS.keys(), default='white',
-                        help='Set the initial walls color (default: white)')
+    parser = argparse.ArgumentParser(description="PacMan Game")
+    parser.add_argument('--fps', type=int, default=30, help='FPS (кадрів на секунду)')
     return parser.parse_args()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse_arguments()
-    
-    background_color = COLORS[args.background]
-    walls_color = COLORS[args.walls]
-    
-    play = Main(screen, background_color, walls_color)
-    play.start()
+    main = Main(fps=args.fps)
+    main.start()
