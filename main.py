@@ -45,6 +45,11 @@ class Main:
 
             if not game.is_pause:
                 game.update()
+            else:
+                font = pygame.font.SysFont(None, 60)
+                pause_text = font.render("PAUSE", True, (255, 255, 255))
+                text_rect = pause_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+                self.screen.blit(pause_text, text_rect)
 
             pygame.display.update()
             self.clock.tick(self.fps)
