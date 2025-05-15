@@ -7,6 +7,7 @@ from src.settings import WIDTH, HEIGHT, MARGIN_BOTTOM, FPS
 
 from src.game import Game
 from src.colors import COLORS  # Імпорт кольорів з окремого файлу
+from src.utils import draw_text  # Імпорт функції для малювання тексту
 
 class Main:
     def __init__(self):
@@ -46,10 +47,7 @@ class Main:
             if not game.is_pause:
                 game.update()
             else:
-                font = pygame.font.SysFont(None, 60)
-                pause_text = font.render("PAUSE", True, (255, 255, 255))
-                text_rect = pause_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-                self.screen.blit(pause_text, text_rect)
+                draw_text(self.screen, "PAUSE", (WIDTH // 2, HEIGHT // 2), size=60)
 
             pygame.display.update()
             self.clock.tick(self.fps)
@@ -57,4 +55,3 @@ class Main:
 if __name__ == "__main__":
     main = Main()
     main.start()
-
