@@ -9,6 +9,10 @@ from src.game import Game
 from src.colors import COLORS  # Імпорт кольорів з окремого файлу
 from src.utils import draw_text  # Імпорт функції для малювання тексту
 
+# Ініціалізуємо звук паузи
+pygame.mixer.init()
+pause_sound = pygame.mixer.Sound("assets/sounds/pause.wav")
+
 class Main:
     def __init__(self):
         pygame.init()
@@ -30,6 +34,7 @@ class Main:
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_p:
+                        pause_sound.play()
                         print("Pause toggled")
                         game.is_pause = not game.is_pause
                     elif event.key == pygame.K_ESCAPE:
