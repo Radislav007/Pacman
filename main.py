@@ -31,9 +31,17 @@ class Main:
                     if event.key == pygame.K_p:
                         print("Pause toggled")
                         game.is_pause = not game.is_pause
-                    if event.key == pygame.K_ESCAPE:
+                    elif event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
+                    elif event.key == pygame.K_UP:
+                        print("Pressed: UP")
+                    elif event.key == pygame.K_DOWN:
+                        print("Pressed: DOWN")
+                    elif event.key == pygame.K_LEFT:
+                        print("Pressed: LEFT")
+                    elif event.key == pygame.K_RIGHT:
+                        print("Pressed: RIGHT")
 
             if not game.is_pause:
                 game.update()
