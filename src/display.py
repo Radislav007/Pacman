@@ -23,7 +23,7 @@ class Display():
         
     def show_life(self, life, screen):
         for i in range(life):
-            screen.blit(self.image, (self.x + ( self.size *(i + 1)), self.y))
+            screen.blit(self.image, (self.x + (self.size * (i + 1)), self.y))
             
     def show_level(self, level, screen):
         text = self.font.render(f"Рівень: {level}", True, (255, 255, 255))
@@ -100,3 +100,9 @@ class Display():
                     change_walls_color()
 
         pygame.display.update()
+
+    def show_game_over(self, screen):
+        font = pygame.font.Font(None, 80)
+        text = font.render("GAME OVER", True, (255, 0, 0))
+        rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(text, rect)
