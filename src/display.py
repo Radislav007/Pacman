@@ -21,17 +21,21 @@ class Display():
         self.image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
         
+        # Для додаткового лічильника очок, шрифт Arial 24 пікс.
+        self.score_font = pygame.font.SysFont('Arial', 24)
+        
     def show_life(self, life, screen):
         for i in range(life):
-            screen.blit(self.image, (self.x + (self.size * (i + 1)), self.y))
+            screen.blit(self.image, (self.x + ( self.size *(i + 1)), self.y))
             
     def show_level(self, level, screen):
         text = self.font.render(f"Рівень: {level}", True, (255, 255, 255))
         screen.blit(text, (self.x + self.size, self.y + self.size))
         
     def show_score(self, score, screen):
-        text = self.font.render(f"Рахунок: {score}", True, (255, 255, 255))
-        screen.blit(text, ((self.x + WIDTH) - (7 * self.size), self.y))
+        # Оновлений метод - відображає очки у лівому нижньому куті, з урахуванням висоти екрану
+        score_text = self.score_font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, HEIGHT + 10))
 
     def show_timer(self, screen, text):
         background_width = WIDTH 
@@ -100,9 +104,3 @@ class Display():
                     change_walls_color()
 
         pygame.display.update()
-
-    def show_game_over(self, screen):
-        font = pygame.font.Font(None, 80)
-        text = font.render("GAME OVER", True, (255, 0, 0))
-        rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-        screen.blit(text, rect)
