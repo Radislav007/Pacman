@@ -7,14 +7,15 @@ class Pacman(pygame.sprite.Sprite):
     def __init__(self, row, col, size, life=3):
         super().__init__()
         self.size = size
-        self.x = row * self.size
-        self.y = col * self.size
+        self.start_x = row * self.size
+        self.start_y = col * self.size
+        self.x = self.start_x
+        self.y = self.start_y
         self.speed = PACMAN_SPEED
         self.life = life
 
         base_dir = os.path.dirname(os.path.abspath(__file__))
         assets_dir = os.path.join(base_dir, '..', 'assets', 'pacman')
-        sounds_dir = os.path.join(base_dir, '..', 'assets', 'sounds')
 
         self.frames = [
             pygame.image.load(os.path.join(assets_dir, "pacman-1.png")),
@@ -48,10 +49,6 @@ class Pacman(pygame.sprite.Sprite):
         self.direction_name = ''
         self.direction = (0, 0)
 
-        # Ініціалізація звуку втрати життя
-        pygame.mixer.init()
-        self.lose_life_sound = pygame.mixer.Sound(os.path.join(sounds_dir, 'lose_life.wav'))
-
     def move(self, pressed_key, walls_collide_list):
         dx, dy = 0, 0
         for dir_name, key in self.keys.items():
@@ -79,9 +76,12 @@ class Pacman(pygame.sprite.Sprite):
         elif self.rect.left >= WIDTH:
             self.rect.right = 0
 
-    def lose_life(self):
-        self.life -= 1
-        self.lose_life_sound.play()
+    def reset_position(self):
+        """Повертає Pacman на початкову позицію"""
+        self.rect.topleft = (self.start_x, self.start_y)
+        self.frame_index = 0
+        self.frame_counter = 0
+        self.image = self.frames[self.frame_index]
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
