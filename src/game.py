@@ -9,14 +9,17 @@ from src.display import Display
 class Game:
     def __init__(self, screen):
         self.screen = screen
-        self.background_colors = [(0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
+
+        # Темно-синій фон як перший колір
+        self.background_colors = [(30, 30, 60), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
         self.walls_colors = [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
-        self.current_background_color_index = 0
+
+        self.current_background_color_index = 0  # ← використовує темно-синій
         self.current_walls_color_index = 0
-        
+
         self.background_color = self.background_colors[self.current_background_color_index]
         self.walls_color = self.walls_colors[self.current_walls_color_index]
-        
+
         self.pacman = pygame.sprite.GroupSingle()
         self.ghosts = pygame.sprite.Group()
         self.dots = pygame.sprite.Group()
@@ -35,6 +38,7 @@ class Game:
         self.score = 0
 
         self.collect_game()
+
 
     def collect_game(self, collect_type='start_over', life=3, level=1): 
         def clear():

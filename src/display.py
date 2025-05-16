@@ -37,7 +37,7 @@ class Display():
         background_width = WIDTH 
         background_height = HEIGHT 
         background_rect = pygame.Rect(0, 0, background_width, background_height)
-        pygame.draw.rect(screen, (0, 0, 0), background_rect)
+        pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
 
         for i in range(3, 0, -1):
             timer_text = self.font.render(f"Гра почнеться через {i}", True, (255, 255, 255))
@@ -52,7 +52,7 @@ class Display():
 
             pygame.display.flip()
             time.sleep(1)
-            pygame.draw.rect(screen, (0, 0, 0), background_rect)
+            pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
             
     def show_pause(self, screen):
         text = self.font.render("Пауза. Натисніть 'P' щоб продовжити", True, (255, 255, 255))
@@ -65,14 +65,14 @@ class Display():
         text2_rect.center = (WIDTH // 2, (HEIGHT // 2) + 50)
         
         background_rect = pygame.Rect(0, 0, WIDTH, HEIGHT)
-        pygame.draw.rect(screen, (0, 0, 0), background_rect)
+        pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
         
         screen.blit(text, text_rect)
         screen.blit(text2, text2_rect)
 
     def show_menu(self, screen, close_menu, change_background_color, background_color, change_walls_color, walls_color):
         background_rect = pygame.Rect(0, 0, WIDTH, HEIGHT)
-        pygame.draw.rect(screen, (0, 0, 0), background_rect)
+        pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
 
         play_button = Button("Грати", WIDTH // 2 - 135, HEIGHT // 2 - 50, 270, 50)
         change_walls_color_button = Button("Змінити колір стіни", WIDTH // 2 - 135, HEIGHT // 2 + 20, 270, 50)
