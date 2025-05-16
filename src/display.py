@@ -20,6 +20,9 @@ class Display():
         
         self.image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
+
+        # Для додаткового лічильника очок, шрифт Arial 24 пікс.
+        self.score_font = pygame.font.SysFont('Arial', 24)
         
     def show_life(self, life, screen):
         for i in range(life):
@@ -30,14 +33,15 @@ class Display():
         screen.blit(text, (self.x + self.size, self.y + self.size))
         
     def show_score(self, score, screen):
-        text = self.font.render(f"Рахунок: {score}", True, (255, 255, 255))
-        screen.blit(text, ((self.x + WIDTH) - (7 * self.size), self.y))
+        # Відображає очки у лівому нижньому куті, з урахуванням висоти екрану
+        score_text = self.score_font.render(f"Рахунок: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, HEIGHT + 10))
 
     def show_timer(self, screen, text):
         background_width = WIDTH 
         background_height = HEIGHT 
         background_rect = pygame.Rect(0, 0, background_width, background_height)
-        pygame.draw.rect(screen, (0, 0, 0), background_rect)
+        pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
 
         for i in range(3, 0, -1):
             timer_text = self.font.render(f"Гра почнеться через {i}", True, (255, 255, 255))
@@ -52,7 +56,7 @@ class Display():
 
             pygame.display.flip()
             time.sleep(1)
-            pygame.draw.rect(screen, (0, 0, 0), background_rect)
+            pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
             
     def show_pause(self, screen):
         text = self.font.render("Пауза. Натисніть 'P' щоб продовжити", True, (255, 255, 255))
@@ -65,14 +69,14 @@ class Display():
         text2_rect.center = (WIDTH // 2, (HEIGHT // 2) + 50)
         
         background_rect = pygame.Rect(0, 0, WIDTH, HEIGHT)
-        pygame.draw.rect(screen, (0, 0, 0), background_rect)
+        pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
         
         screen.blit(text, text_rect)
         screen.blit(text2, text2_rect)
 
     def show_menu(self, screen, close_menu, change_background_color, background_color, change_walls_color, walls_color):
         background_rect = pygame.Rect(0, 0, WIDTH, HEIGHT)
-        pygame.draw.rect(screen, (0, 0, 0), background_rect)
+        pygame.draw.rect(screen, (30, 30, 60), background_rect)  # темно-синій фон
 
         play_button = Button("Грати", WIDTH // 2 - 135, HEIGHT // 2 - 50, 270, 50)
         change_walls_color_button = Button("Змінити колір стіни", WIDTH // 2 - 135, HEIGHT // 2 + 20, 270, 50)

@@ -7,8 +7,10 @@ class Pacman(pygame.sprite.Sprite):
     def __init__(self, row, col, size, life=3):
         super().__init__()
         self.size = size
-        self.x = row * self.size
-        self.y = col * self.size
+        self.start_x = row * self.size
+        self.start_y = col * self.size
+        self.x = self.start_x
+        self.y = self.start_y
         self.speed = PACMAN_SPEED
         self.life = life
 
@@ -24,7 +26,7 @@ class Pacman(pygame.sprite.Sprite):
         self.frames = [pygame.transform.scale(frame, (self.size, self.size)) for frame in self.frames]
 
         self.frame_index = 0
-        self.frame_speed = 5  # Кожні 5 кадрів змінюємо зображення
+        self.frame_speed = 5
         self.frame_counter = 0
 
         self.image = self.frames[self.frame_index]
@@ -53,9 +55,8 @@ class Pacman(pygame.sprite.Sprite):
             if pressed_key[key]:
                 dx, dy = self.directions[dir_name]
                 self.direction_name = dir_name
-                break  # тільки одна напрямок за раз
+                break  # тільки один напрямок за раз
 
-        # перевірка колізії зі стінами
         new_rect = self.rect.move(dx, dy)
         if new_rect.collidelist(walls_collide_list) == -1:
             self.rect = new_rect
@@ -72,11 +73,18 @@ class Pacman(pygame.sprite.Sprite):
             self.frame_counter = 0
             self.image = self.frames[self.frame_index]
 
-        # телепортація при виході за край
+        # Телепортація при виході за край екрану
         if self.rect.right <= 0:
             self.rect.left = WIDTH
         elif self.rect.left >= WIDTH:
             self.rect.right = 0
+
+    def reset_position(self):
+        """Повертає Pacman на початкову позицію"""
+        self.rect.topleft = (self.start_x, self.start_y)
+        self.frame_index = 0
+        self.frame_counter = 0
+        self.image = self.frames[self.frame_index]
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

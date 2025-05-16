@@ -1,3 +1,4 @@
+import sys
 import pygame
 from src.settings import MAP, CHAR_SIZE
 from src.tile import Tile
@@ -9,14 +10,16 @@ from src.display import Display
 class Game:
     def __init__(self, screen):
         self.screen = screen
-        self.background_colors = [(0, 0, 0), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
+        # Темно-синій фон як перший колір
+        self.background_colors = [(30, 30, 60), (255, 255, 255), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
         self.walls_colors = [(255, 255, 255), (0, 0, 0), (255, 0, 0), (0, 255, 0), (0, 0, 255)]
-        self.current_background_color_index = 0
+
+        self.current_background_color_index = 0  # ← використовує темно-синій
         self.current_walls_color_index = 0
-        
+
         self.background_color = self.background_colors[self.current_background_color_index]
         self.walls_color = self.walls_colors[self.current_walls_color_index]
-        
+
         self.pacman = pygame.sprite.GroupSingle()
         self.ghosts = pygame.sprite.Group()
         self.dots = pygame.sprite.Group()
@@ -110,7 +113,14 @@ class Game:
         if self.is_pause:
             self.display.show_pause(self.screen)
         elif self.is_menu_open:
-            self.display.show_menu(self.screen, self.close_menu, self.change_background_color, self.background_color, self.change_walls_color, self.walls_color)
+            self.display.show_menu(
+                self.screen, 
+                self.close_menu, 
+                self.change_background_color, 
+                self.background_color, 
+                self.change_walls_color, 
+                self.walls_color
+            )
         else:
             pressed_key = pygame.key.get_pressed()
 
