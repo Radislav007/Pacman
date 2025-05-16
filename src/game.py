@@ -36,7 +36,6 @@ class Game:
 
         self.collect_game()
 
-
     def collect_game(self, collect_type='start_over', life=3, level=1): 
         def clear():
             self.pacman = pygame.sprite.GroupSingle()
@@ -85,6 +84,14 @@ class Game:
 
         self.walls_collide_list = [wall.rect for wall in self.walls.sprites()]
 
+        # Рахуємо загальну кількість очок за всі монети
+        self.total_points = 0
+        for dot in self.dots:
+            if dot.is_power:
+                self.total_points += 50
+            else:
+                self.total_points += 10
+
     def close_menu(self):
         self.is_menu_open = False
 
@@ -111,6 +118,12 @@ class Game:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.power_mode_start_time > self.power_mode_duration:
                     self.power_mode = False
+
+            # Логіка виграшу
+            if self.score >= self.total_points and len(self.dots) == 0:
+                print("YOU WIN!")
+                pygame.quit()
+                sys.exit()
 
             if len(self.dots) == 0:
                 self.level += 1
@@ -148,4 +161,3 @@ class Game:
             self.display.show_life(self.pacman.sprite.life, self.screen)
             self.display.show_level(self.level, self.screen)
             self.display.show_score(self.score, self.screen)
-
