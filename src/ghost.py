@@ -1,3 +1,4 @@
+import os
 import pygame
 import random
 
@@ -14,7 +15,11 @@ class Ghost(pygame.sprite.Sprite):
         self.speed = GHOST_SPEED
         
         self.move_dir = 'up'
-        self.img_path = f'assets/{self.ghost_name}/{self.move_dir}.png'
+        
+        # Визначаємо абсолютний шлях до папки assets
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        assets_dir = os.path.join(base_dir, '..', 'assets', self.ghost_name)
+        self.img_path = os.path.join(assets_dir, f'{self.move_dir}.png')
         
         self.image = pygame.image.load(self.img_path)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
@@ -43,10 +48,12 @@ class Ghost(pygame.sprite.Sprite):
         
         
     def animate(self, power_mode):
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         if power_mode:
-            self.img_path = f'assets/edible/ghost.png'
+            self.img_path = os.path.join(base_dir, '..', 'assets', 'edible', 'ghost.png')
         else:
-            self.img_path = f'assets/{self.ghost_name}/{self.move_dir}.png'
+            assets_dir = os.path.join(base_dir, '..', 'assets', self.ghost_name)
+            self.img_path = os.path.join(assets_dir, f'{self.move_dir}.png')
             
         self.image = pygame.image.load(self.img_path)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
@@ -76,6 +83,3 @@ class Ghost(pygame.sprite.Sprite):
             self.rect.x = 0
         
         self.animate(power_mode)
-        
-        
-        

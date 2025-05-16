@@ -1,3 +1,4 @@
+import os
 import pygame
 import time
 
@@ -11,7 +12,13 @@ class Display():
         self.font = pygame.font.Font(None, 36)
         self.x = 0
         self.y = HEIGHT
-        self.image = pygame.image.load('assets/pacman/pacman-2.png')
+
+        # Абсолютний шлях до картинки pacman-2.png
+        base_dir = os.path.dirname(os.path.abspath(__file__))  # шлях до папки src/
+        assets_dir = os.path.join(base_dir, '..', 'assets')   # вихід з src/ до assets/
+        image_path = os.path.join(assets_dir, 'pacman', 'pacman-2.png')
+        
+        self.image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(self.image, (self.size, self.size))
         
     def show_life(self, life, screen):
@@ -25,7 +32,6 @@ class Display():
     def show_score(self, score, screen):
         text = self.font.render(f"Рахунок: {score}", True, (255, 255, 255))
         screen.blit(text, ((self.x + WIDTH) - (7 * self.size), self.y))
-
 
     def show_timer(self, screen, text):
         background_width = WIDTH 
